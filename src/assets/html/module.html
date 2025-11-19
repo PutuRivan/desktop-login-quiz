@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+</head>
+
+<body>
+
+<div class="container">
+    <h1>Modul Pembelajaran</h1>
+
+    <div class="module-box">
+        <h2>Pengenalan Aplikasi</h2>
+        <p>
+            Aplikasi ini digunakan untuk monitoring perangkat kantor. 
+            Anda wajib memahami cara penggunaan sistem sebelum melanjutkan login sebagai admin.
+        </p>
+
+        <h2>Aturan Penggunaan</h2>
+        <ul>
+            <li>Dilarang menutup aplikasi sebelum proses selesai.</li>
+            <li>Dilarang mengubah konfigurasi sistem.</li>
+            <li>Semua aktivitas dimonitor oleh sistem keamanan.</li>
+        </ul>
+    </div>
+
+    <button onclick="finishModule()">Saya Sudah Mengerti</button>
+</div>
+
+<script>
+function finishModule() {
+    chrome.webview.postMessage("finish");
+}
+</script>
+
+</body>
+</html>
