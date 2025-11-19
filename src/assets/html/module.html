@@ -2,71 +2,46 @@
 <html>
 
 <head>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="../css/module.css">
     <meta charset="UTF-8">
 </head>
 
 <body>
 
     <div class="container">
-        <h1>Modul Pembelajaran</h1>
 
-        <div class="module-box">
-            <h2>Pengenalan Aplikasi</h2>
-            <p>
-                Aplikasi ini digunakan untuk monitoring perangkat kantor.
-                Anda wajib memahami cara penggunaan sistem sebelum melanjutkan login sebagai admin.
-            </p>
-
-            <h2>Aturan Penggunaan</h2>
-            <ul>
-                <li>Dilarang menutup aplikasi sebelum proses selesai.</li>
-                <li>Dilarang mengubah konfigurasi sistem.</li>
-                <li>Semua aktivitas dimonitor oleh sistem keamanan.</li>
-            </ul>
-        </div>
-        <!-- Tampilkan Modul -->
-        <div id="moduleContent">
-            ...
-            <button onclick="openPDF()">Lihat PDF Modul</button>
+        <!-- Tombol Aksi -->
+        <div class="top-buttons">
+            <button id="togglePdfBtn" onclick="togglePDF()">Tutup PDF</button>
+            <button id="goToQuizBtn" onclick="finishModule()">Kembali ke Quiz</button>
         </div>
 
-        <!-- Tampilkan PDF -->
-        <iframe id="pdfViewer" style="display:none; width:100%; height:80vh;"></iframe>
+        <!-- PDF Viewer default: tampil -->
+        <iframe id="pdfViewer"></iframe>
 
-        <button id="backBtn" style="display:none;" onclick="closePDF()">
-            Kembali
-        </button>
+        <!-- Konten Modul -->
+        <div id="moduleContent" style="display:none;">
+            <h1>Modul Pembelajaran</h1>
 
+            <div class="module-box">
+                <h2>Pengenalan Aplikasi</h2>
+                <p>
+                    Aplikasi ini digunakan untuk monitoring perangkat kantor.
+                    Anda wajib memahami cara penggunaan sistem sebelum melanjutkan login sebagai admin.
+                </p>
 
-        <button onclick="finishModule()">Saya Sudah Mengerti</button>
+                <h2>Aturan Penggunaan</h2>
+                <ul>
+                    <li>Dilarang menutup aplikasi sebelum proses selesai.</li>
+                    <li>Dilarang mengubah konfigurasi sistem.</li>
+                    <li>Semua aktivitas dimonitor oleh sistem keamanan.</li>
+                </ul>
+            </div>
+        </div>
+
     </div>
 
-    <script>
-        function finishModule() {
-            chrome.webview.postMessage("finish");
-        }
-        function openPDF() {
-            chrome.webview.postMessage("open-pdf");
-        }
-
-        function closePDF() {
-            document.getElementById("pdfViewer").style.display = "none";
-            document.getElementById("backBtn").style.display = "none";
-            document.getElementById("moduleContent").style.display = "block";
-        }
-
-        chrome.webview.addEventListener("message", (event) => {
-            const pdfPath = event.data;
-
-            document.getElementById("moduleContent").style.display = "none";
-            document.getElementById("pdfViewer").style.display = "block";
-            document.getElementById("backBtn").style.display = "inline-block";
-
-            document.getElementById("pdfViewer").src = pdfPath;
-        });
-
-    </script>
+    <script src="../js/module.js"></script>
 
 </body>
 

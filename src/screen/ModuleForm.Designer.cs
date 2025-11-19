@@ -14,7 +14,7 @@ namespace LoginSystem
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.Text = "Quiz";
+            this.Text = "Module";
             this.ClientSize = new System.Drawing.Size(800, 450);
         }
     }

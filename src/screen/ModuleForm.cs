@@ -39,16 +39,16 @@ namespace LoginSystem
             webView.CoreWebView2.WebMessageReceived += WebMessageReceived;
         }
 
-        private void WebMessageReceived(object sender, Microsoft.Web.WebView2.Core.CoreWebView2WebMessageReceivedEventArgs e)
+        private void WebMessageReceived(object? sender, Microsoft.Web.WebView2.Core.CoreWebView2WebMessageReceivedEventArgs e)
         {
             string msg = e.TryGetWebMessageAsString();
 
             if (msg == "finish")
             {
                 this.Hide();
-                QuizForm quiz = new QuizForm();
-                quiz.Show();
+                new QuizForm().Show();
             }
+
             if (msg == "open-pdf")
             {
                 string pdfPath = Path.Combine(
@@ -56,16 +56,17 @@ namespace LoginSystem
                     "src", "assets", "pdf", "modul1.pdf"
                 );
 
-                if (File.Exists(pdfPath))
-                {
-                    webView.CoreWebView2.PostWebMessageAsString(pdfPath);
-                }
-                else
+                if (!File.Exists(pdfPath))
                 {
                     MessageBox.Show("PDF tidak ditemukan!");
+                    return;
                 }
-            }
 
+                // Convert Windows path → valid file URL
+                string pdfUrl = new Uri(pdfPath).AbsoluteUri;
+
+                webView.CoreWebView2.PostWebMessageAsString(pdfUrl);
+            }
         }
 
         private void ModuleForm_FormClosing(object sender, FormClosingEventArgs e)
