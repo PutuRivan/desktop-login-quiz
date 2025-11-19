@@ -1,32 +1,136 @@
+/* ANIMASI MASUK HALUS */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(25px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ============================
+   GLOBAL STYLE
+============================ */
 body {
   margin: 0;
-  background: #f4f4f4;
-  font-family: Arial, sans-serif;
+  padding: 0;
+  height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+
+  background: url('../img/bgbukutamu4.jpg') no-repeat center center/cover;
+  font-family: 'Poppins', Arial, sans-serif;
+  backdrop-filter: blur(4px);
 }
 
+/* ============================
+   QUIZ CONTAINER
+============================ */
 .quiz-container {
+  width: 480px;
+  background: linear-gradient(145deg, rgba(20, 25, 40, 0.9), rgba(15, 20, 35, 0.95));
+  padding: 40px 30px;
+  /* Tambah padding samping agar lebih rapi */
+  border-radius: 20px;
+  box-shadow:
+    0 0 35px rgba(0, 150, 255, 0.25),
+    inset 0 0 10px rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  animation: fadeInUp 0.7s ease forwards;
   text-align: center;
-  background: white;
-  padding: 40px;
-  border-radius: 10px;
-  width: 500px;
-  box-shadow: 0 0 15px rgba(0,0,0,0.2);
+  color: #d9e5ff;
 }
 
-input {
-  width: 100%;
-  padding: 12px;
+/* TITLE */
+.quiz-container h1 {
+  font-size: 26px;
+  color: #ffffff;
+  font-weight: 700;
+  margin-bottom: 10px;
+  text-shadow: 0 0 12px rgba(0, 180, 255, 0.6);
+}
+
+/* PERTANYAAN */
+.quiz-container p {
   font-size: 18px;
+  margin-bottom: 25px;
+  color: #d0d6e1;
+}
+
+.form-container {
+  display: flex;
+  flex-direction: column;
+}
+
+/* INPUT STYLE */
+.quiz-container input {
+  /* full width container */
+  padding: 15px;
   margin-top: 15px;
+  font-size: 17px;
+
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 12px;
+  color: #fff;
+
+  outline: none;
+  transition: all 0.25s ease;
 }
 
-button {
-  margin-top: 20px;
-  padding: 12px 20px;
+.quiz-container input:focus {
+  box-shadow: 0 0 12px rgba(0, 180, 255, 0.6);
+  border-color: #00aaff;
+  transform: scale(1.01);
+}
+
+/* BUTTON */
+.quiz-container button {
+  width: 100%;
+  /* Sama lebar dengan input */
+  padding: 15px;
   font-size: 18px;
+  margin-top: 20px;
+
+  border-radius: 12px;
+  border: none;
   cursor: pointer;
+
+  background: linear-gradient(145deg, #007bff, #0099ff);
+  color: #fff;
+
+  box-shadow: 0 4px 18px rgba(0, 150, 255, 0.4);
+  transition: all 0.3s ease;
+}
+
+.quiz-container button:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 0 25px rgba(0, 180, 255, 0.8);
+}
+
+/* ============================
+   RESPONSIVE
+============================ */
+@media (max-width: 480px) {
+  .quiz-container {
+    width: 90%;
+    padding: 30px 20px;
+  }
+
+  .quiz-container h1 {
+    font-size: 22px;
+  }
+
+  .quiz-container p {
+    font-size: 16px;
+  }
+
+  .quiz-container button {
+    font-size: 16px;
+    padding: 14px;
+  }
 }
