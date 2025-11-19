@@ -1,7 +1,4 @@
 using Microsoft.Web.WebView2.WinForms;
-using System;
-using System.IO;
-using System.Windows.Forms;
 
 namespace LoginSystem
 {
@@ -52,6 +49,23 @@ namespace LoginSystem
                 QuizForm quiz = new QuizForm();
                 quiz.Show();
             }
+            if (msg == "open-pdf")
+            {
+                string pdfPath = Path.Combine(
+                    Application.StartupPath,
+                    "src", "assets", "pdf", "modul1.pdf"
+                );
+
+                if (File.Exists(pdfPath))
+                {
+                    webView.CoreWebView2.PostWebMessageAsString(pdfPath);
+                }
+                else
+                {
+                    MessageBox.Show("PDF tidak ditemukan!");
+                }
+            }
+
         }
 
         private void ModuleForm_FormClosing(object sender, FormClosingEventArgs e)
