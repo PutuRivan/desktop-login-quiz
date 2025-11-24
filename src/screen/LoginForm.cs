@@ -68,16 +68,17 @@ namespace LoginSystem
         {
             string message = e.TryGetWebMessageAsString();
 
-            if (message == "admin")
+            if (message == "user")
             {
                 this.Hide();
                 QuizForm quiz = new QuizForm();
                 quiz.Show();
             }
-            else if (message == "user")
+            else if (message == "admin")
             {
-                MessageBox.Show("Login User berhasil!");
-                Application.Exit();
+                this.Hide();
+                AdminPassword adminForm = new AdminPassword();
+                adminForm.Show();
             }
         }
     }
