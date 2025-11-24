@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="../css/module.css">
+    <meta charset="UTF-8">
+</head>
+
+<body>
+
+    <div class="container">
+
+        <!-- Tombol Aksi -->
+        <div class="top-buttons">
+            <button id="togglePdfBtn" onclick="togglePDF()">Tutup PDF</button>
+            <button id="goToQuizBtn" onclick="finishModule()">Kembali ke Quiz</button>
+        </div>
+
+        <!-- PDF Viewer default: tampil -->
+        <iframe id="pdfViewer"></iframe>
+
+        <!-- Konten Modul -->
+        <div id="moduleContent" style="display:none;">
+            <h1>Modul Pembelajaran</h1>
+
+            <div class="module-box">
+                <h2>Pengenalan Aplikasi</h2>
+                <p>
+                    Aplikasi ini digunakan untuk monitoring perangkat kantor.
+                    Anda wajib memahami cara penggunaan sistem sebelum melanjutkan login sebagai admin.
+                </p>
+
+                <h2>Aturan Penggunaan</h2>
+                <ul>
+                    <li>Dilarang menutup aplikasi sebelum proses selesai.</li>
+                    <li>Dilarang mengubah konfigurasi sistem.</li>
+                    <li>Semua aktivitas dimonitor oleh sistem keamanan.</li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="../js/module.js"></script>
+
+</body>
+
+</html>

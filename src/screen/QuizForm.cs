@@ -1,0 +1,73 @@
+using Microsoft.Web.WebView2.WinForms;
+using System;
+using System.IO;
+using System.Windows.Forms;
+
+namespace LoginSystem
+{
+    public partial class QuizForm : Form
+    {
+        private WebView2 webView;
+        private bool canClose = false;
+
+        public QuizForm()
+        {
+            InitializeComponent();
+            SetupForm();
+            SetupWebView();
+        }
+
+        private void SetupForm()
+        {
+            this.FormBorderStyle = FormBorderStyle.None;
+            this.WindowState = FormWindowState.Maximized;
+            this.TopMost = true;
+
+            this.ControlBox = false;
+            this.FormClosing += QuizForm_FormClosing;
+        }
+
+        private async void SetupWebView()
+        {
+            webView = new WebView2
+            {
+                Dock = DockStyle.Fill
+            };
+
+            this.Controls.Add(webView);
+            await webView.EnsureCoreWebView2Async();
+
+            string path = Path.Combine(Application.StartupPath, "src", "assets", "html", "quiz.html");
+
+            webView.CoreWebView2.Navigate(path);
+            webView.CoreWebView2.WebMessageReceived += OnMessageReceived;
+        }
+
+        private void QuizForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (!canClose)
+            {
+                e.Cancel = true;
+            }
+        }
+
+        private void OnMessageReceived(object sender, Microsoft.Web.WebView2.Core.CoreWebView2WebMessageReceivedEventArgs e)
+        {
+            string msg = e.TryGetWebMessageAsString();
+
+            if (msg == "correct")
+            {
+                MessageBox.Show("Jawaban benar! Login Admin berhasil.");
+                canClose = true;
+                this.Close();
+            }
+            else if (msg == "wrong")
+            {
+                // Buka Module Form berbasis HTML
+                ModuleForm module = new ModuleForm();
+                this.Hide();
+                module.Show();
+            }
+        }
+    }
+}
