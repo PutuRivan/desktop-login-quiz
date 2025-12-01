@@ -1,38 +1,87 @@
 // ===============================
-// DATA SOAL
+// BANK SOAL — kota → negara
 // ===============================
-const quizData = [
-  {
-    question: "Apa huruf pertama dari kata 'Resmi'?",
-    options: ["A. A", "B. R", "C. E", "D. I"],
-    answer: "b"
-  },
-  {
-    question: "Ibu kota Indonesia adalah?",
-    options: ["A. Surabaya", "B. Bandung", "C. Jakarta", "D. Medan"],
-    answer: "c"
-  },
-  {
-    question: "2 + 5 × 2 = ?",
-    options: ["A. 12", "B. 10", "C. 15", "D. 9"],
-    answer: "a"
-  }
+const questionBank = [
+  { city: "Tokyo", country: "Jepang" },
+  { city: "Seoul", country: "Korea Selatan" },
+  { city: "Bangkok", country: "Thailand" },
+  { city: "Beijing", country: "China" },
+  { city: "New York", country: "Amerika Serikat" },
+  { city: "Sydney", country: "Australia" },
+  { city: "Paris", country: "Prancis" },
+  { city: "Berlin", country: "Jerman" },
+  { city: "Madrid", country: "Spanyol" },
+  { city: "London", country: "Inggris" },
+  { city: "Moscow", country: "Rusia" },
+  { city: "Dubai", country: "Uni Emirat Arab" },
+  { city: "Toronto", country: "Kanada" },
+  { city: "New Delhi", country: "India" },
+  { city: "Roma", country: "Italia" }
 ];
 
+// Jumlah soal yang akan dipakai
+const TOTAL_QUESTIONS = 10;
+
+let quizData = [];
 let currentIndex = 0;
 let correctCount = 0;
 
+// Shuffle helper
+function shuffle(array) {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  return array;
+}
 
-// ===============================
-// TAMPILKAN SOAL
-// ===============================
+// Generate quiz random
+function generateQuiz() {
+  const shuffled = shuffle([...questionBank]);
+  const selected = shuffled.slice(0, TOTAL_QUESTIONS);
+
+  quizData = selected.map(item => {
+    const correct = item.country;
+
+    let fakeOptions = questionBank
+      .filter(x => x.country !== correct)
+      .map(x => x.country);
+
+    shuffle(fakeOptions);
+
+    const options = [
+      correct,
+      fakeOptions[0],
+      fakeOptions[1],
+      fakeOptions[2]
+    ];
+
+    shuffle(options);
+
+    const answerIndex = options.indexOf(correct);
+
+    return {
+      question: `Kota "${item.city}" berada di negara mana?`,
+      options: [
+        "A. " + options[0],
+        "B. " + options[1],
+        "C. " + options[2],
+        "D. " + options[3],
+      ],
+      answer: ["a", "b", "c", "d"][answerIndex]
+    };
+  });
+}
+
+generateQuiz();
+
+// Tampilkan soal
 function loadQuestion() {
   const q = quizData[currentIndex];
   const box = document.getElementById("question-box");
 
   box.innerHTML = `
     <p style="font-size:18px; margin-bottom:20px;">${currentIndex + 1}. ${q.question}</p>
-
     ${q.options
       .map((opt, idx) => {
         const letter = ["a", "b", "c", "d"][idx];
@@ -49,10 +98,7 @@ function loadQuestion() {
 
 loadQuestion();
 
-
-// ===============================
-// NEXT / SUBMIT
-// ===============================
+// Next
 function nextQuestion() {
   const selected = document.querySelector("input[name='answer']:checked");
 
@@ -74,19 +120,11 @@ function nextQuestion() {
   }
 }
 
-
-// ===============================
-// KIRIM HASIL KE WEBVIEW
-// ===============================
+// Finish
 function finishQuiz() {
   if (correctCount === quizData.length) {
-
-    // Semua benar → kirim pesan ke aplikasi untuk membuka Desktop
     chrome.webview.postMessage("open_desktop");
-
   } else {
-
-    // Jika ada yang salah → beri pesan salah
     chrome.webview.postMessage("wrong");
   }
 
