@@ -1,25 +1,22 @@
 <!DOCTYPE html>
 <html lang="id">
-
 <head>
   <meta charset="UTF-8" />
-  <title>Quiz Admin</title>
+  <title>Quiz User</title>
   <link rel="stylesheet" href="../css/quiz.css" />
 </head>
 
 <body>
   <div class="quiz-container">
-    <h1>Pertanyaan Admin</h1>
-    <p>Apa huruf pertama dari kata "Resmi"?</p>
+    <h1>Quiz User</h1>
 
-    <div class="form-container">
-      <input type="text" id="answer" placeholder="Masukkan jawaban..." />
-
-      <button onclick="submitAnswer()">Submit</button>
+    <div id="question-box">
+      <!-- Soal akan tampil dari JS -->
     </div>
+
+    <button id="next-btn" onclick="nextQuestion()">Lanjut</button>
   </div>
 
   <script src="../js/quiz.js"></script>
 </body>
-
 </html>

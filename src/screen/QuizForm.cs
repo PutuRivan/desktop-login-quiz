@@ -37,10 +37,18 @@ namespace LoginSystem
             this.Controls.Add(webView);
             await webView.EnsureCoreWebView2Async();
 
+            // Load halaman quiz
             string path = Path.Combine(Application.StartupPath, "src", "assets", "html", "quiz.html");
-
             webView.CoreWebView2.Navigate(path);
+
+            // Event listener pesan dari JavaScript
             webView.CoreWebView2.WebMessageReceived += OnMessageReceived;
+
+            // Reset quiz setiap kali halaman selesai dimuat
+            webView.CoreWebView2.NavigationCompleted += (s, e) =>
+            {
+                webView.CoreWebView2.ExecuteScriptAsync("currentIndex = 0; correctCount = 0;");
+            };
         }
 
         private void QuizForm_FormClosing(object sender, FormClosingEventArgs e)
@@ -51,23 +59,31 @@ namespace LoginSystem
             }
         }
 
-        private void OnMessageReceived(object sender, Microsoft.Web.WebView2.Core.CoreWebView2WebMessageReceivedEventArgs e)
-        {
-            string msg = e.TryGetWebMessageAsString();
+            private void OnMessageReceived(object sender, Microsoft.Web.WebView2.Core.CoreWebView2WebMessageReceivedEventArgs e)
+{
+    string msg = e.TryGetWebMessageAsString();
 
-            if (msg == "correct")
-            {
-                MessageBox.Show("Jawaban benar! Login Admin berhasil.");
-                canClose = true;
-                this.Close();
-            }
-            else if (msg == "wrong")
-            {
-                // Buka Module Form berbasis HTML
-                ModuleForm module = new ModuleForm();
-                this.Hide();
-                module.Show();
-            }
-        }
+    if (msg == "open_desktop")
+    {
+        canClose = true;
+        this.Hide(); // Hilangkan cepat
+        this.Close();
+
+        MainForm desktop = new MainForm();
+        desktop.Show();
+    }
+    else if (msg == "wrong")
+    {
+        webView.CoreWebView2.ExecuteScriptAsync("currentIndex = 0; correctCount = 0;");
+
+        canClose = true;
+        this.Hide(); // Hindari form muncul kembali
+        this.Close();
+
+        ModuleForm module = new ModuleForm();
+        module.Show();
+    }
+}
+
     }
 }
