@@ -71,8 +71,8 @@ namespace LoginSystem
             if (message == "user")
             {
                 this.Hide();
-                QuizForm quiz = new QuizForm();
-                quiz.Show();
+                TikQuestionForm tikQuestion = new TikQuestionForm();
+                tikQuestion.Show();
             }
             else if (message == "admin")
             {
