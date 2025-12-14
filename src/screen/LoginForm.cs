@@ -1,4 +1,5 @@
 using Microsoft.Web.WebView2.WinForms;
+using Microsoft.Web.WebView2.Core;
 using System;
 using System.IO;
 using System.Runtime.InteropServices;
@@ -56,7 +57,20 @@ namespace LoginSystem
             };
 
             this.Controls.Add(webView);
-            await webView.EnsureCoreWebView2Async();
+
+            // Create a user data folder in a location with proper permissions
+            string userDataFolder = Path.Combine(
+                Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+                "LoginQuizApp",
+                "WebView2");
+
+            Directory.CreateDirectory(userDataFolder);
+
+            var environment = await CoreWebView2Environment.CreateAsync(
+                browserExecutableFolder: null,
+                userDataFolder: userDataFolder);
+
+            await webView.EnsureCoreWebView2Async(environment);
 
             string loginPath = Path.Combine(Application.StartupPath, "src", "assets", "html", "index.html");
             webView.CoreWebView2.Navigate(loginPath);

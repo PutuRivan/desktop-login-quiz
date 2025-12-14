@@ -145,6 +145,7 @@ generateQuiz();
 function loadQuestion() {
   const q = quizData[currentIndex];
   const box = document.getElementById("question-box");
+  const nextBtn = document.getElementById("next-btn");
 
   box.innerHTML = `
     <p style="font-size:18px; margin-bottom:20px;">${currentIndex + 1}. ${q.question}</p>
@@ -160,6 +161,13 @@ function loadQuestion() {
       })
       .join("")}
   `;
+
+  // Ubah tombol menjadi "Submit" pada soal terakhir
+  if (currentIndex === quizData.length - 1) {
+    nextBtn.textContent = "Submit";
+  } else {
+    nextBtn.textContent = "Lanjut";
+  }
 }
 
 loadQuestion();
@@ -188,15 +196,36 @@ function nextQuestion() {
 
 // Finish
 function finishQuiz() {
+  const wrongCount = quizData.length - correctCount;
+
+  // Tampilkan popup hasil
+  showResultPopup(correctCount, wrongCount);
+
+  // Sembunyikan tombol
+  document.getElementById("next-btn").style.display = "none";
+}
+
+// Tampilkan popup hasil
+function showResultPopup(correct, wrong) {
+  const popup = document.getElementById("result-popup");
+  const correctEl = document.getElementById("correct-count");
+  const wrongEl = document.getElementById("wrong-count");
+
+  correctEl.textContent = correct;
+  wrongEl.textContent = wrong;
+
+  popup.style.display = "flex";
+}
+
+// Tutup popup dan lanjutkan
+function closeResultPopup() {
+  const popup = document.getElementById("result-popup");
+  popup.style.display = "none";
+
+  // Kirim pesan berdasarkan hasil
   if (correctCount === quizData.length) {
     chrome.webview.postMessage("open_desktop");
   } else {
     chrome.webview.postMessage("wrong");
   }
-
-  document.getElementById("question-box").innerHTML =
-    `<h2>Quiz Selesai!</h2>
-     <p>Nilai: ${correctCount} / ${quizData.length}</p>`;
-
-  document.getElementById("next-btn").style.display = "none";
 }

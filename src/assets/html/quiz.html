@@ -17,6 +17,24 @@
     <button id="next-btn" onclick="nextQuestion()">Lanjut</button>
   </div>
 
+  <!-- Popup Hasil Quiz -->
+  <div id="result-popup" class="result-popup">
+    <div class="result-popup-content">
+      <h2>Hasil Quiz</h2>
+      <div class="result-stats">
+        <div class="stat-item stat-correct">
+          <span class="stat-label">Benar</span>
+          <span class="stat-value" id="correct-count">0</span>
+        </div>
+        <div class="stat-item stat-wrong">
+          <span class="stat-label">Salah</span>
+          <span class="stat-value" id="wrong-count">0</span>
+        </div>
+      </div>
+      <button class="result-btn" onclick="closeResultPopup()">Tutup</button>
+    </div>
+  </div>
+
   <script src="../js/quiz.js"></script>
 </body>
 </html>

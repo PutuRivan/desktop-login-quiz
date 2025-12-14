@@ -1,4 +1,5 @@
 using Microsoft.Web.WebView2.WinForms;
+using Microsoft.Web.WebView2.Core;
 using System;
 using System.IO;
 using System.Windows.Forms;
@@ -35,7 +36,20 @@ namespace LoginSystem
             };
 
             this.Controls.Add(webView);
-            await webView.EnsureCoreWebView2Async();
+
+            // Create a user data folder in a location with proper permissions
+            string userDataFolder = Path.Combine(
+                Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+                "LoginQuizApp",
+                "WebView2");
+
+            Directory.CreateDirectory(userDataFolder);
+
+            var environment = await CoreWebView2Environment.CreateAsync(
+                browserExecutableFolder: null,
+                userDataFolder: userDataFolder);
+
+            await webView.EnsureCoreWebView2Async(environment);
 
             // Load halaman quiz
             string path = Path.Combine(Application.StartupPath, "src", "assets", "html", "quiz.html");
@@ -59,31 +73,31 @@ namespace LoginSystem
             }
         }
 
-            private void OnMessageReceived(object sender, Microsoft.Web.WebView2.Core.CoreWebView2WebMessageReceivedEventArgs e)
-{
-    string msg = e.TryGetWebMessageAsString();
+        private void OnMessageReceived(object sender, Microsoft.Web.WebView2.Core.CoreWebView2WebMessageReceivedEventArgs e)
+        {
+            string msg = e.TryGetWebMessageAsString();
 
-    if (msg == "open_desktop")
-    {
-        canClose = true;
-        this.Hide(); // Hilangkan cepat
-        this.Close();
+            if (msg == "open_desktop")
+            {
+                canClose = true;
+                this.Hide(); // Hilangkan cepat
+                this.Close();
 
-        MainForm desktop = new MainForm();
-        desktop.Show();
-    }
-    else if (msg == "wrong")
-    {
-        webView.CoreWebView2.ExecuteScriptAsync("currentIndex = 0; correctCount = 0;");
+                MainForm desktop = new MainForm();
+                desktop.Show();
+            }
+            else if (msg == "wrong")
+            {
+                webView.CoreWebView2.ExecuteScriptAsync("currentIndex = 0; correctCount = 0;");
 
-        canClose = true;
-        this.Hide(); // Hindari form muncul kembali
-        this.Close();
+                canClose = true;
+                this.Hide(); // Hindari form muncul kembali
+                this.Close();
 
-        ModuleForm module = new ModuleForm();
-        module.Show();
-    }
-}
+                ModuleForm module = new ModuleForm();
+                module.Show();
+            }
+        }
 
     }
 }

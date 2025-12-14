@@ -11,8 +11,20 @@
   }
 }
 
+html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
 body {
-  background-image: url('../img/bgbukutamu4.jpg');
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+
+  background: url('../img/bgbukutamu4.jpg') no-repeat center center/cover;
+  font-family: 'Poppins', Arial, sans-serif;
+  backdrop-filter: blur(4px);
 }
 
 /* KONTAINER UTAMA */
