@@ -79,6 +79,9 @@ namespace LoginSystem
 
             if (msg == "open_desktop")
             {
+                // Tampilkan notifikasi jika semua jawaban benar
+                MessageBox.Show("Selamat Datang User", "Notifikasi", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
                 canClose = true;
                 this.Hide(); // Hilangkan cepat
                 this.Close();
