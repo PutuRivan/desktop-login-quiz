@@ -210,9 +210,17 @@ function showResultPopup(correct, wrong) {
   const popup = document.getElementById("result-popup");
   const correctEl = document.getElementById("correct-count");
   const wrongEl = document.getElementById("wrong-count");
+  const button = document.querySelector(".result-btn");
 
   correctEl.textContent = correct;
   wrongEl.textContent = wrong;
+
+  // Ubah teks tombol berdasarkan hasil
+  if (correct === TOTAL_QUESTIONS) {
+    button.textContent = "Masuk";
+  } else {
+    button.textContent = "Ulang Quiz";
+  }
 
   popup.style.display = "flex";
 }
@@ -220,12 +228,19 @@ function showResultPopup(correct, wrong) {
 // Tutup popup dan lanjutkan
 function closeResultPopup() {
   const popup = document.getElementById("result-popup");
+  const button = document.querySelector(".result-btn");
+
   popup.style.display = "none";
 
-  // Kirim pesan berdasarkan hasil
-  if (correctCount === quizData.length) {
+  if (button.textContent === "Masuk") {
+    // Kirim pesan untuk masuk desktop
     chrome.webview.postMessage("open_desktop");
-  } else {
-    chrome.webview.postMessage("wrong");
+  } else if (button.textContent === "Ulang Quiz") {
+    // Reset quiz dan mulai ulang
+    currentIndex = 0;
+    correctCount = 0;
+    generateQuiz(); // Generate ulang soal random
+    loadQuestion();
+    document.getElementById("next-btn").style.display = "block";
   }
 }
