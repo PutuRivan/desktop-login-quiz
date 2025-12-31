@@ -236,11 +236,7 @@ function closeResultPopup() {
     // Kirim pesan untuk masuk desktop
     chrome.webview.postMessage("open_desktop");
   } else if (button.textContent === "Ulang Quiz") {
-    // Reset quiz dan mulai ulang
-    currentIndex = 0;
-    correctCount = 0;
-    generateQuiz(); // Generate ulang soal random
-    loadQuestion();
-    document.getElementById("next-btn").style.display = "block";
+    // Jika belum benar 5, arahkan ke modul pembelajaran
+    chrome.webview.postMessage("wrong");
   }
 }
